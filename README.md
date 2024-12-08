@@ -4,7 +4,7 @@
 
 This project involves building a Python-based keylogger to record keyboard inputs for educational purposes and to demonstrate ethical hacking techniques. The goal is to understand how keyloggers operate, learn the principles of monitoring input devices, and emphasize the importance of securing systems against such threats.
 
-> **Note:** This project is strictly for educational use and ethical learning. Do not deploy or use the keylogger for malicious purposes.
+> **Note:** This project is strictly for educational use and ethical learning. 
 
 ### Skills Learned
 
